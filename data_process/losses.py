@@ -3,6 +3,8 @@ import numpy as np
 import torch 
 import os 
 import matplotlib.pyplot as plt
+device=torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 def get_weighted_loss(pos_weights,neg_weights,epsilon=1e-7):
     """
     Return weighted loss function given negative weights and positive weights.
@@ -26,8 +28,8 @@ def get_weighted_loss(pos_weights,neg_weights,epsilon=1e-7):
         """
         loss=0.0
       
-        pos_loss=np.sum(np.mean(-pos_weights*y_true*np.log(y_pred+epsilon),axis=0))
-        neg_loss=np.sum(np.mean(-(neg_weights)*(1-y_true)*np.log(1-y_pred+epsilon),axis=0))
+        pos_loss=torch.sum(torch.mean(-pos_weights*y_true*torch.log(y_pred+epsilon).to(device),axis=0).to(device)).to(device)
+        neg_loss=torch.sum(torch.mean(-(neg_weights)*(1-y_true)*torch.log(1-y_pred+epsilon).to(device),axis=0).to(device)).to(device)
         loss=pos_loss+neg_loss
         return loss
     return weighted_loss    
@@ -41,10 +43,11 @@ if __name__=="__main__":
          [0, 1, 0],
          [1, 0, 1]]
     )
-    w_p = np.array([0.25, 0.25, 0.5])
-    w_n = np.array([0.75, 0.75, 0.5])
+    w_p = torch.tensor([0.25, 0.25, 0.5])
+    w_n = torch.tensor([0.75, 0.75, 0.5])
     y_pred_1 =0.7*np.ones(y_true.shape)
     y_pred_2 =0.3*np.ones(y_true.shape)
     L = get_weighted_loss(w_p, w_n)
+    print(L(y_true,torch.from_numpy(y_pred_1)),L(y_true,torch.from_numpy(y_pred_2)))
 
     
