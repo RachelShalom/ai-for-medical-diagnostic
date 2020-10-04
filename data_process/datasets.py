@@ -5,6 +5,7 @@ import torch
 import os 
 import matplotlib.pyplot as plt
 from skimage import io
+from PIL import Image
 # from torchvision import transforms
 plt.ion() #interactive mode
 label_names=['Cardiomegaly', 
@@ -41,10 +42,11 @@ class XrayDataSet(Dataset):
     def __getitem__(self,idx):
         image_path=os.path.join(self.root_dir,self.data.loc[idx,'Image Index'])
         label=torch.tensor(self.data.loc[idx,self.label_names].values.astype(int))
-        image=io.imread(image_path)
+        image = Image.open(image_path).convert('RGB')
+        # image=io.imread(image_path)
         if self.transform:
             image=self.transform(image)
-        return image, label 
+        return image, label
 
 
 
