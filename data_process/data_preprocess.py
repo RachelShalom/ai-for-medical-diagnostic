@@ -25,7 +25,7 @@ def save_binary_labels(read_path="data_files/Data_Entry_2017_v2020.csv",save_pat
           'Pneumonia', 
           'Fibrosis', 
           'Edema', 
-          'Consolidation']        
+          'Consolidation','No Finding']        
   labels=pd.read_csv(read_path)
   labels["labels_list"]=labels["Finding Labels"].apply(lambda x:x.split("|"))   
   labels["binary_labels"]=labels["Finding Labels"].apply(to_binary_labels) 
