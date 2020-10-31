@@ -1,5 +1,5 @@
 # ai-for-medical-diagnostic
-This code is based on the course exercises of ai for medical diagnostic , the  first course of 3 courses of AI in Healthcare specialization
+This code is based on the course exercises of ai for medical diagnostic. mainly dealing with multiclass classification of lung animalies and segmentation of brain tumor
 structure:
 - data_preprocess: a dir for downloading and preprocssing data
 - data_files: relevant partial xray data files including user metadata,binary labels, bounding boxes and split to train,test,val 
